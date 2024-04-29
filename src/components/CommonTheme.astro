@@ -1,0 +1,35 @@
+---
+const { value } = Astro.props;
+---
+
+<div class="common-theme">
+  <div class="common-theme_label"><span>Esquisse Theme</span></div>
+  <div class="common-theme_value">{value}</div>
+</div>
+
+<style lang="scss">
+  .common-theme {
+    --this-border-width: 4px;
+
+    border-left: var(--this-border-width) solid var(--color-black);
+  }
+
+  .common-theme_label {
+    font-size: var(--typo-size-50);
+
+    & > :global(span) {
+      display: inline-block;
+      padding: 0 0.75rem;
+      margin-left: calc(-1 * var(--this-border-width));
+      color: var(--color-white);
+      background-color: var(--color-black);
+    }
+  }
+
+  .common-theme_value {
+    padding: 0.25rem 0 0 0.375rem;
+    font-size: var(--typo-size-200);
+    font-weight: var(--typo-weight-bold);
+    line-height: 1;
+  }
+</style>

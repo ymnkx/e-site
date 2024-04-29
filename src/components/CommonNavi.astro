@@ -1,0 +1,61 @@
+---
+import CommonGitHub from './CommonGitHub.astro';
+import GlobalNavigation from '@/components/GlobalNavigation/GlobalNavigation.astro';
+const breakpoint = '48em';
+---
+
+<GlobalNavigation breakpoint={breakpoint}>
+  <div class="common-navi" id="js-common-navi">
+    <a class="common-navi_link" href="#html">HTML</a>
+    <a class="common-navi_link" href="#css">CSS</a>
+    <a class="common-navi_link" href="#js">JavaScript</a>
+    <a class="common-navi_link" href="#" target="_blank">
+      <CommonGitHub />
+    </a>
+  </div>
+</GlobalNavigation>
+
+<style lang="scss">
+  @use '@/styles/_dev/+.scss' as *;
+
+  .common-navi {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+
+    @include min-screen(md) {
+      flex-direction: row;
+      gap: 1rem;
+    }
+  }
+
+  .common-navi_link {
+    position: relative;
+    display: block;
+    text-decoration: none;
+
+    &::after {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      visibility: hidden;
+      content: '';
+      background: linear-gradient(90deg, var(--color-gradation-1), var(--color-gradation-2));
+    }
+
+    @media (hover: hover) {
+      &:not([target='_blank']):hover::after {
+        visibility: visible;
+      }
+    }
+  }
+</style>
+
+<script>
+  import { smoothScrollInPage } from '@/components/develop/smoothScroll.ts';
+
+  smoothScrollInPage({ selector: '#js-common-navi' });
+</script>

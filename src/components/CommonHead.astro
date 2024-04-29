@@ -1,0 +1,22 @@
+---
+const { title, description } = Astro.props;
+import projectData from '@/data/project.ts';
+
+const thisTitle = (title && `${title} | `) + projectData.siteName;
+const thisDescription = description || projectData.siteDescription;
+---
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width" />
+  <title>{thisTitle}</title>
+  <meta name="description" content={thisDescription} />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@600&family=Inter:wght@100..900&display=swap"
+    rel="stylesheet"
+  />
+</head>

@@ -1,0 +1,15 @@
+---
+import '@/styles/base.scss';
+import CommonHead from '@/components/CommonHead.astro';
+import CommonScroll from '@/components/CommonScroll.astro';
+const { title, description } = Astro.props;
+---
+
+<html lang="ja">
+  <CommonHead title={title} description={description} />
+  <body>
+    <CommonScroll>
+      <slot />
+    </CommonScroll>
+  </body>
+</html>

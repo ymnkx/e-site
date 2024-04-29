@@ -1,0 +1,151 @@
+---
+const { name = 'NAME', fullName = 'Full<br/>Name', label = 'Label' } = Astro.props;
+---
+
+<div class="common-section" id={name}>
+  <div class="common-section_inner">
+    <div class="common-section_title">
+      <div class="common-section_pre" set:html={fullName} />
+      <div class="common-section_main">
+        <div class="common-section_label">{label}</div>
+        <h2 class="common-section_heading">{name}</h2>
+      </div>
+      <div class="common-section_object">
+        <div class="common-section_stripe"></div>
+        <div class="common-section_color"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style lang="scss">
+  @use '@/styles/_dev/+.scss' as *;
+
+  .common-section {
+    position: relative;
+    width: 100%;
+    height: 100svh;
+  }
+
+  .common-section_inner {
+    display: flex;
+    align-items: center;
+    max-width: max(30vw, #{rem(480)});
+    height: 100%;
+    padding-right: 2rem;
+    padding-left: var(--space-frame);
+    overflow: hidden;
+
+    // background-color: aliceblue;
+  }
+
+  .common-section_title {
+    display: inline-block;
+    min-width: rem(200);
+    padding-bottom: 4rem;
+    margin-right: auto;
+    margin-left: auto;
+
+    @include min-screen(md) {
+      display: block;
+      width: 100%;
+    }
+  }
+
+  .common-section_pre {
+    font-size: var(--typo-size-50);
+    line-height: 1.25;
+    text-align: right;
+  }
+
+  .common-section_main {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-top: -2rem;
+
+    @include min-screen(md) {
+      flex-direction: row;
+      margin-top: 0;
+    }
+  }
+
+  .common-section_label {
+    padding: 0 0.75rem;
+    margin-top: rem(10);
+    font-size: var(--typo-size-50);
+    color: var(--color-white);
+    background-color: var(--color-black);
+
+    @include min-screen(md) {
+      margin-left: rem(32);
+    }
+  }
+
+  .common-section_heading {
+    width: 100%;
+    font-size: 5rem;
+    font-weight: var(--typo-weight-bold);
+    line-height: 1;
+    text-align: right;
+    text-transform: uppercase;
+  }
+
+  .common-section_object {
+    margin-top: 0.5rem;
+  }
+
+  .common-section_stripe {
+    --this-color: var(--color-bg); // slategray;
+
+    position: relative;
+    width: rem(136);
+    height: rem(40);
+    margin-left: auto;
+    background-image: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 8px,
+      var(--this-color) 8px,
+      var(--this-color) 16px
+    );
+    background-size: auto auto;
+    animation-name: warning;
+    animation-duration: 10s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+
+    @include min-screen(md) {
+      --this-color: var(--color-black);
+    }
+  }
+
+  @keyframes warning {
+    0% {
+      background-position: 0 0;
+    }
+
+    100% {
+      background-position: 136px 0;
+    }
+  }
+
+  .common-section_color {
+    --this-size: #{rem(16)};
+
+    width: rem(136);
+    height: rem(40);
+    margin-top: rem(-40);
+    margin-left: auto;
+    background: linear-gradient(90deg, var(--color-gradation-1), var(--color-gradation-2));
+
+    @include min-screen(md) {
+      width: rem(60);
+      height: rem(120);
+      margin-top: -1.75rem;
+      margin-right: 0.75rem;
+      background: linear-gradient(var(--color-gradation-1), var(--color-gradation-2));
+    }
+  }
+</style>

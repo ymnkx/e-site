@@ -1,0 +1,28 @@
+---
+import CommonScrollTop from './CommonScrollTop/CommonScrollTop.astro';
+import CommonTheme from './CommonTheme.astro';
+---
+
+<div class="main-bottom">
+  <div class="main-bottom_inner">
+    <CommonTheme value="Petit-SF-Parts" />
+    <CommonScrollTop />
+  </div>
+</div>
+
+<style lang="scss">
+  .main-bottom {
+    position: sticky;
+    bottom: 0;
+    height: 0;
+  }
+
+  .main-bottom_inner {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: var(--space-frame);
+    transform: translateY(-100%);
+  }
+</style>

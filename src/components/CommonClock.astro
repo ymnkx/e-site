@@ -1,0 +1,44 @@
+<div class="common-clock">
+  <div class="common-clock_day" id="js-clock-day">00000000</div>
+  <div class="common-clock_time" id="js-clock-time">00:00:00</div>
+</div>
+
+<style lang="scss">
+  .common-clock {
+    font-family: var(--typo-family-fira-code);
+    font-size: var(--typo-size-50);
+    font-weight: 400;
+    line-height: 1;
+  }
+</style>
+
+<script>
+  import dayjs from 'dayjs';
+
+  (() => {
+    const dayElement = document.querySelector('#js-clock-day');
+    const timeElement = document.querySelector('#js-clock-time');
+    if (!dayElement || !timeElement) return;
+
+    const getZeroPadding = (str: number) => {
+      return String(str).padStart(2, '0');
+    };
+
+    const update = () => {
+      const data = dayjs();
+      const year = data.get('year');
+      const month = data.get('month') + 1;
+      const date = data.get('date');
+      const hour = data.get('hour');
+      const minute = data.get('minute');
+      const second = data.get('second');
+      dayElement.innerHTML = `${year}${getZeroPadding(month)}${getZeroPadding(date)}`;
+      timeElement.innerHTML = `${getZeroPadding(hour)}:${getZeroPadding(minute)}:${getZeroPadding(second)}`;
+    };
+
+    update();
+    setInterval(() => {
+      update();
+    }, 1000);
+  })();
+</script>

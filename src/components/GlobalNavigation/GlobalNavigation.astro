@@ -1,0 +1,167 @@
+---
+type Props = {
+  breakpoint?: string | null;
+  speed?: number;
+};
+const { breakpoint = null, speed } = Astro.props;
+---
+
+<div
+  class="global-navigation js-global-navigation"
+  data-breakpoint={breakpoint}
+  data-speed={speed}
+  aria-expanded="false"
+>
+  <div class="global-navigation_bg" data-role="bg" aria-hidden="true"></div>
+  <div class="global-navigation_navi" data-role="navi" aria-hidden="true">
+    <div class="global-navigation_contents">
+      <slot />
+    </div>
+    <button class="global-navigation_trap" type="button" data-role="trap" aria-hidden="true"></button>
+  </div>
+  <div class="global-navigation_button -open">
+    <button type="button" data-role="open" aria-label="open menu">
+      <svg class="global-navigation_icon -menu" viewBox="0 0 44 44">
+        <path fill="none" stroke="black" stroke-linecap="round" stroke-width="2" d="M8,15 H32 M8,22 H32 M8,29 H32"
+        ></path>
+      </svg>
+    </button>
+  </div>
+  <div class="global-navigation_button -close">
+    <button type="button" data-role="close" aria-label="close menu">
+      <svg class="global-navigation_icon -menu" viewBox="0 0 44 44">
+        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M14,14 L30,30 M30,14 L14,30"
+        ></path>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<style lang="scss">
+  @use '@/styles/_dev/+' as *;
+
+  .global-navigation {
+    --this-color-cover: var(--global-navigation-bg, lightgray);
+    --this-color-icon: var(--global-navigation-icon, black);
+    --this-size-icon: 2.75rem;
+    --this-z: var(--z-navi, 1);
+
+    position: relative;
+    display: block;
+  }
+
+  .global-navigation_bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: var(--this-z);
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: var(--this-color-cover);
+
+    &[aria-hidden='false'] {
+      display: block;
+    }
+  }
+
+  .global-navigation_navi {
+    position: fixed;
+    top: 0;
+    left: 0; // 100%;
+    z-index: var(--this-z);
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+
+    &[aria-hidden='true'] {
+      display: none;
+    }
+
+    .global-navigation.-disabled & {
+      position: relative;
+      left: auto;
+      background-color: transparent;
+    }
+  }
+
+  .global-navigation_button {
+    position: fixed;
+    top: var(--space-frame);
+    right: var(--space-frame);
+    z-index: 10000;
+    display: block;
+
+    :where(.global-navigation[aria-expanded='false']) & {
+      &.-open {
+        display: block;
+      }
+
+      &.-close {
+        display: none;
+      }
+    }
+
+    :where(.global-navigation[aria-expanded='true']) & {
+      &.-open {
+        display: none;
+      }
+
+      &.-close {
+        display: block;
+      }
+    }
+
+    .global-navigation.-disabled & {
+      display: none;
+    }
+
+    & > button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      margin-top: -0.5rem;
+      margin-right: -0.5rem;
+      appearance: none;
+      cursor: pointer;
+      background-color: transparent;
+      border: none;
+    }
+  }
+
+  .global-navigation_icon {
+    display: inline-block;
+    width: var(--this-size-icon);
+    height: var(--this-size-icon);
+    color: var(--this-color-icon);
+  }
+
+  .global-navigation_contents {
+    width: 100%;
+    max-height: 100%;
+    overflow-y: auto;
+  }
+
+  .global-navigation_trap {
+    width: 0;
+    height: 0;
+    padding: 0;
+    border: 0;
+    opacity: 0;
+
+    .global-navigation.-disabled & {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  import { GlobalNavigation } from './GlobalNavigation';
+  (() => {
+    GlobalNavigation().init({
+      selector: '.js-global-navigation',
+    });
+  })();
+</script>

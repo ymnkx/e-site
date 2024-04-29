@@ -1,0 +1,25 @@
+---
+import CommonLayout from '@/components/CommonLayout.astro';
+import CommonFrame from '@/components/CommonFrame.astro';
+import MainVisual from '@/components/MainVisual.astro';
+import Base from '@/layouts/Base.astro';
+import CommonSection from '@/components/CommonSection.astro';
+import CommonFooter from '@/components/CommonFooter.astro';
+import MainObject from '@/components/MainObject.astro';
+import MainBottom from '@/components/MainBottom.astro';
+const title = '';
+const description = '';
+---
+
+<Base title={title} description={description}>
+  <CommonFrame />
+  <CommonLayout>
+    <MainObject />
+    <MainVisual />
+    <CommonSection name="html" fullName={`Hyper-Text<br />Markup<br />Language`} label="Section01" />
+    <CommonSection name="css" fullName={`Cascading<br />Style<br />Sheets`} label="Section02" />
+    <CommonSection name="js" fullName={`JavaScript`} label="Section03" />
+    <MainBottom />
+  </CommonLayout>
+  <CommonFooter />
+</Base>

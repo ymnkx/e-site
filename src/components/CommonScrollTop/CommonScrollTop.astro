@@ -1,0 +1,73 @@
+<div class="common-scrollTop" id="js-scroll-top">
+  <button type="button" class="common-scrollTop_button" data-role="button" aria-label="ページトップへ移動"></button>
+</div>
+
+<style lang="scss">
+  @use '@/styles/_dev/+.scss' as *;
+
+  .common-scrollTop {
+    --icon-size: #{rem(24)};
+    --size: #{rem(40)};
+
+    position: relative;
+    width: var(--size);
+    height: var(--size);
+    margin-right: -0.5rem;
+    margin-bottom: -0.5rem;
+    overflow: hidden;
+  }
+
+  .common-scrollTop_button {
+    right: 0;
+    display: block;
+    width: var(--size);
+    height: var(--size);
+    background: transparent;
+    border: 0;
+    transition: transform 0.2s;
+    transform-origin: center;
+
+    .common-scrollTop.-top & {
+      transform: rotate(180deg);
+    }
+
+    &::before {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: var(--icon-size);
+      height: var(--icon-size);
+      content: '';
+      background: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 24 24"><path fill="none" stroke-width="4px" stroke-linecap="round" stroke="black" d="M4,16 12,8 20,16" /></svg>');
+      transform: translate(-50%, -50%);
+    }
+  }
+</style>
+
+<script>
+  import { smoothScroll, smoothScrollToId } from '@/components/develop/smoothScroll';
+
+  const topElement = document.querySelector('#js-scroll-top');
+  const buttonElement = topElement?.querySelector('[data-role="button"]');
+  buttonElement?.addEventListener('click', () => {
+    if (topElement?.classList.contains('-top')) smoothScrollToId('#html');
+    else smoothScroll(0);
+  });
+
+  const checkShowPosition = () => {
+    const target = document.querySelector('.main-visual'); // bodyだとlenis.jsが邪魔する
+    const observerOption = {
+      root: null,
+      rootMargin: '50px',
+      threshold: [1],
+    };
+    const callback: IntersectionObserverCallback = (entries) => {
+      entries.forEach((entry) => {
+        topElement?.classList.toggle('-top', entry.isIntersecting);
+      });
+    };
+    const observer = new IntersectionObserver(callback, observerOption);
+    if (target) observer.observe(target);
+  };
+  checkShowPosition();
+</script>

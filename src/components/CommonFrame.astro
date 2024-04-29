@@ -1,0 +1,79 @@
+---
+import CommonClock from './CommonClock.astro';
+import CommonNavi from './CommonNavi.astro';
+import CommonTitle from './CommonTitle.astro';
+import CommonUrl from './CommonUrl.astro';
+---
+
+<div class="common-frame">
+  <div class="common-frame_corner -right -top">
+    <CommonNavi />
+  </div>
+  <div class="common-frame_corner -left -top">
+    <CommonTitle />
+  </div>
+  <div class="common-frame_corner -right -center -vertical">
+    <div class="common-frame_move">
+      <CommonUrl />
+    </div>
+  </div>
+  <div class="common-frame_corner -left -center -vertical">
+    <div class="common-frame_move">
+      <CommonClock />
+    </div>
+  </div>
+</div>
+
+<style lang="scss">
+  .common-frame {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+
+    & * {
+      pointer-events: initial;
+    }
+  }
+
+  .common-frame_corner {
+    position: absolute;
+    z-index: var(--z-frame);
+    backface-visibility: hidden;
+
+    &.-left {
+      left: var(--space-frame);
+    }
+
+    &.-right {
+      right: var(--space-frame);
+    }
+
+    &.-top {
+      top: var(--space-frame);
+    }
+
+    &.-bottom {
+      bottom: var(--space-frame);
+    }
+
+    &.-center {
+      top: 50svh;
+    }
+
+    &.-vertical {
+      &.-right {
+        transform: rotate(-90deg) translate(50%, -100%);
+        transform-origin: right top;
+      }
+
+      &.-left {
+        transform: rotate(-90deg) translateX(-50%);
+        transform-origin: left center;
+      }
+    }
+  }
+</style>

@@ -1,0 +1,13 @@
+@use "@/styles/_dev/+" as *;
+
+:root {
+  --space-100: #{rem(16)};
+  --space-150: #{rem(24)};
+  --space-400: 4rem;
+
+  --space-frame: var(--space-150);
+
+  @include min-screen(md) {
+    --space-frame: var(--space-400);
+  }
+}

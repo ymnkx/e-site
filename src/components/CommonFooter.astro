@@ -1,0 +1,206 @@
+<div class="common-footer">
+  <div class="common-footer_deco">
+    <div class="common-footer_circle -left"></div>
+    <div class="common-footer_circle -right"></div>
+  </div>
+  <div class="common-footer_inner">
+    <div class="common-footer_logo">
+      <span data-brackets="left">{`{`}</span><span>E</span><span data-brackets="right">{`}`}</span>
+    </div>
+    <div class="common-footer_project">PROJECT</div>
+    <div class="common-footer_copyrights">&copy;ymnkx 2024</div>
+  </div>
+  <div class="common-footer_end"></div>
+</div>
+
+<style lang="scss">
+  @use '@/styles/_dev/+.scss' as *;
+
+  .common-footer {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    overflow: hidden;
+    color: var(--color-text-white);
+    background-color: var(--color-bg-footer);
+  }
+
+  .common-footer_end {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 80%;
+    max-width: 20rem;
+    height: 6px;
+    background-color: var(--color-white);
+    transform: translateX(-50%);
+
+    &::before,
+    &::after {
+      position: absolute;
+      top: 0;
+      width: 3rem;
+      height: 10px;
+      content: '';
+      background-color: var(--color-white);
+    }
+
+    &::before {
+      left: 0;
+    }
+
+    &::after {
+      right: 0;
+    }
+  }
+
+  // .common-footer_deco {}
+
+  .common-footer_circle {
+    --this-size: 60rem;
+    --this-span: 8rem;
+
+    position: absolute;
+    top: 50%;
+    width: var(--this-size);
+    height: var(--this-size);
+    border: 2px dotted var(--color-text-white);
+    border-radius: 100vmax;
+    opacity: 0.25;
+    transform: translate(-50%, -50%);
+
+    &.-left {
+      left: calc(50% - var(--this-span) - var(--this-size) * 0.5);
+    }
+
+    &.-right {
+      left: calc(50% + var(--this-span) + var(--this-size) * 0.5);
+    }
+
+    @include min-screen(md) {
+      --this-span: 15rem;
+    }
+  }
+
+  .common-footer_inner {
+    padding: 5rem 2rem 0;
+    text-align: center;
+  }
+
+  .common-footer_logo {
+    display: flex;
+    gap: 0.1em;
+    align-items: center;
+    justify-content: center;
+    font-size: 6rem;
+    font-weight: var(--typo-weight-logo);
+    line-height: 1;
+
+    & > :global(span):not(:nth-child(2)) {
+      position: relative;
+      top: -0.075em;
+    }
+  }
+
+  .common-footer_project {
+    font-size: var(--typo-size-300);
+    font-weight: var(--typo-weight-bold);
+  }
+
+  .common-footer_copyrights {
+    padding: 1rem;
+    margin-top: 2rem;
+    font-size: var(--typo-size-50);
+    color: var(--color-text-white-dark);
+    text-align: center;
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+
+  const triggerSetting = (delay = 0) => {
+    return {
+      trigger: '.common-layout',
+      endTrigger: 'html',
+      start: `bottom+=${delay} bottom`,
+      end: 'bottom bottom',
+      scrub: true,
+    };
+  };
+
+  const getFooterHeight = () => {
+    const footerElement = document.querySelector('.common-footer');
+    return footerElement ? footerElement.clientHeight : 0;
+  };
+
+  gsap.fromTo(
+    '.common-footer_logo',
+    {
+      scale: 1.25,
+    },
+    {
+      scale: 1,
+      scrollTrigger: triggerSetting(150),
+    }
+  );
+
+  gsap.fromTo(
+    '.common-footer_logo span[data-brackets="left"]',
+    {
+      scale: 1.1,
+      x: -10,
+    },
+    {
+      scale: 1,
+      x: 0,
+      scrollTrigger: triggerSetting(150),
+    }
+  );
+
+  gsap.fromTo(
+    '.common-footer_logo span[data-brackets="right"]',
+    {
+      scale: 1.1,
+      x: 10,
+    },
+    {
+      scale: 1,
+      x: 0,
+      scrollTrigger: triggerSetting(150),
+    }
+  );
+
+  gsap.fromTo(
+    '.common-footer_project',
+    {
+      y: 5,
+      opacity: 0,
+    },
+    {
+      y: 0,
+      opacity: 1,
+      scrollTrigger: triggerSetting(200),
+    }
+  );
+
+  gsap.fromTo(
+    '.common-footer_circle',
+    {
+      scale: 0.95,
+      opacity: 0,
+      rotate: 10,
+    },
+    {
+      scale: 1,
+      opacity: 0.3,
+      rotate: 0,
+      scrollTrigger: triggerSetting(100),
+    }
+  );
+
+  gsap.to('.common-frame_move', {
+    x: getFooterHeight() * 0.5,
+    scrollTrigger: triggerSetting(),
+  });
+</script>
