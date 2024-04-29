@@ -4,7 +4,7 @@ export const smoothScrollToId = (target_id: string) => {
   const target = document.querySelector(target_id);
   if (!target) return;
   const rect = target.getBoundingClientRect();
-  smoothScroll(rect.top + window.pageYOffset);
+  smoothScroll(rect.top + window.scrollY);
 };
 
 let startScrollY = 0;

@@ -18,7 +18,7 @@ export const GlobalNavigation = () => {
 
         const globalNavi = GlobalNavigationCore();
         naviList.push(globalNavi);
-        globalNavi.init({ element: target, type: target.dataset.type, speed: Number(target.dataset.speed) });
+        globalNavi.init({ element: target, speed: Number(target.dataset.speed) });
 
         if (breakpoint) {
           matchMediaController().init({

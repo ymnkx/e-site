@@ -11,7 +11,7 @@ const { url, publicDir, subDirectory } = d;
 // https://astro.build/config
 export default defineConfig({
   base: subDirectory,
-  outDir: `./dist/${subDirectory}`,
+  outDir: `./docs/`,
   publicDir: publicDir,
   site: url,
   server: { host: true, port: 3000 },
