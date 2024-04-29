@@ -10,7 +10,7 @@ const { url, publicDir, subDirectory } = d;
 
 // https://astro.build/config
 export default defineConfig({
-  base: subDirectory,
+  base: `/${subDirectory}`,
   outDir: `./docs/`,
   publicDir: publicDir,
   site: url,
