@@ -116,8 +116,11 @@
   }
 </style>
 
-<!-- <script>
+<script>
   import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
 
   const triggerSetting = (delay = 0) => {
     return {
@@ -203,4 +206,4 @@
     x: getFooterHeight() * 0.5,
     scrollTrigger: triggerSetting(),
   });
-</script> -->
+</script>
