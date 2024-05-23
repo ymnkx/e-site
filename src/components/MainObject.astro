@@ -1,8 +1,41 @@
+---
+import SvgSquare from '@/image/svg/Square.svg?raw';
+import SvgSquareParts from '@/image/svg/SquareParts.svg?raw';
+import SvgCircle from '@/image/svg/Circle.svg?raw';
+import SvgCircleParts from '@/image/svg/CircleParts.svg?raw';
+import SvgTriangle from '@/image/svg/Triangle.svg?raw';
+import SvgTriangleParts from '@/image/svg/TriangleParts.svg?raw';
+---
+
 <div class="main-object">
-  <div class="main-object_sample"></div>
+  <div class="main-object_stage" id="js-main-object-stage">
+    <div class="main-object_item -square -frame"></div>
+    <div class="main-object_item -square">
+      <Fragment set:html={SvgSquare} />
+    </div>
+    <div class="main-object_item -square -parts">
+      <Fragment set:html={SvgSquareParts} />
+    </div>
+    <div class="main-object_item -circle -frame"></div>
+    <div class="main-object_item -circle">
+      <Fragment set:html={SvgCircle} />
+    </div>
+    <div class="main-object_item -circle -parts">
+      <Fragment set:html={SvgCircleParts} />
+    </div>
+    <div class="main-object_item -triangle -frame"></div>
+    <div class="main-object_item -triangle">
+      <Fragment set:html={SvgTriangle} />
+    </div>
+    <div class="main-object_item -triangle -parts">
+      <Fragment set:html={SvgTriangleParts} />
+    </div>
+  </div>
 </div>
 
 <style lang="scss">
+  @use '@/styles/_dev/+.scss' as *;
+
   .main-object {
     position: sticky;
     top: 0;
@@ -12,13 +45,253 @@
     overflow: hidden;
   }
 
-  .main-object_sample {
+  .main-object_stage {
+    --size: min(60vw, 20rem);
+
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 20rem;
-    height: 20rem;
-    background-color: snow;
+    top: 45%;
+    left: 53%;
+    width: var(--size);
+    height: var(--size);
+    transition: left 0.2s;
     transform: translate(-50%, -50%);
+    perspective: 1000px;
+    perspective-origin: center center;
+    transform-style: preserve-3d;
+
+    &.-right {
+      top: 50%;
+      left: 60%;
+    }
+
+    @include min-screen(md) {
+      --size: clamp(23rem, 30vw, 36rem);
+    }
+  }
+
+  .main-object_item {
+    --span: min(20vw, 12rem);
+
+    @include min-screen(md) {
+      --span: min(10vw, 12rem);
+    }
+
+    --size-layer-0: calc(2 * var(--span));
+    --size-layer-1: var(--span);
+    --size-layer-2: 0px;
+    --size-layer-3: calc(-1 * var(--span));
+    --size-layer-4: calc(-2 * var(--span));
+    --size-over: 0.1px;
+
+    .main-object_stage.-right & {
+      --size-over: calc(0.5 * var(--span));
+    }
+
+    --layer-0: translate3d(0, 0, var(--size-layer-0));
+    --layer-1-parts: translate3d(0, 0, calc(var(--size-layer-1) + var(--size-over)));
+    --layer-1: translate3d(0, 0, var(--size-layer-1));
+    --layer-2-parts: translate3d(0, 0, calc(var(--size-layer-2) + var(--size-over)));
+    --layer-2: translate3d(0, 0, var(--size-layer-2));
+    --layer-2-frame: translate3d(0, 0, calc(var(--size-layer-2) - var(--size-over) * 0.5));
+    --layer-3-parts: translate3d(0, 0, calc(var(--size-layer-3) + var(--size-over)));
+    --layer-3: translate3d(0, 0, var(--size-layer-3));
+    --layer-4-parts: translate3d(0, 0, calc(var(--size-layer-4) + var(--size-over)));
+    --layer-4: translate3d(0, 0, var(--size-layer-4));
+    --color-border: #666;
+
+    --color-triangle: #63a7d8;
+    --color-triangle-dark: #487a9e;
+    --color-circle: #fb7f7f;
+    --color-circle-dark: #cc6767;
+    --color-square: #96de7d;
+    --color-square-dark: #79b365;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition:
+      opacity 0.6s,
+      rotate 0.2s,
+      transform 0.4s;
+    rotate: 1 -1 0.5 45deg;
+
+    & > :global(svg) {
+      width: 100%;
+      height: 100%;
+    }
+
+    &.-frame {
+      border: 1px solid var(--color-border);
+    }
+
+    &.-square {
+      color: var(--color-square);
+      transform: var(--layer-3);
+    }
+
+    &.-square.-parts {
+      color: var(--color-square-dark);
+      transform: var(--layer-3-parts);
+    }
+
+    &.-circle {
+      color: var(--color-circle);
+      transform: var(--layer-2);
+    }
+
+    &.-circle.-parts {
+      color: var(--color-circle-dark);
+      transform: var(--layer-2-parts);
+    }
+
+    &.-triangle {
+      color: var(--color-triangle);
+      transform: var(--layer-1);
+    }
+
+    &.-triangle.-parts {
+      color: var(--color-triangle-dark);
+      transform: var(--layer-1-parts);
+    }
+
+    .main-object_stage[data-step='1'] & {
+      &.-square {
+        opacity: 0;
+        transform: var(--layer-4);
+      }
+
+      &.-circle {
+        opacity: 0;
+        transform: var(--layer-3);
+      }
+
+      &.-triangle {
+        transform: var(--layer-2);
+      }
+
+      &.-triangle.-parts {
+        transform: var(--layer-2-parts);
+      }
+
+      &.-triangle.-frame {
+        transform: var(--layer-2-frame);
+      }
+    }
+
+    .main-object_stage[data-step='2'] & {
+      &.-square {
+        opacity: 0;
+        transform: var(--layer-3);
+      }
+
+      &.-circle {
+        opacity: 1;
+        transform: var(--layer-2);
+      }
+
+      &.-circle.-parts {
+        transform: var(--layer-2-parts);
+      }
+
+      &.-circle.-frame {
+        transform: var(--layer-2-frame);
+      }
+
+      &.-triangle {
+        opacity: 0;
+        transform: var(--layer-1);
+      }
+    }
+
+    .main-object_stage[data-step='3'] & {
+      &.-square {
+        opacity: 1;
+        transform: var(--layer-2);
+      }
+
+      &.-square.-parts {
+        transform: var(--layer-2-parts);
+      }
+
+      &.-square.-frame {
+        transform: var(--layer-2-frame);
+      }
+
+      &.-circle {
+        opacity: 0;
+        transform: var(--layer-1);
+      }
+
+      &.-triangle {
+        opacity: 0;
+        transform: var(--layer-0);
+      }
+    }
+
+    .main-object_stage[data-step='1'] &,
+    .main-object_stage[data-step='2'] &,
+    .main-object_stage[data-step='3'] & {
+      rotate: 0 1 0 -30deg;
+    }
   }
 </style>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  (() => {
+    const stageElement: HTMLElement | null = document.querySelector('#js-main-object-stage');
+    if (!stageElement) return;
+
+    const changeState = (index: number) => {
+      stageElement.dataset.step = index + '';
+      switch (index) {
+        case 0:
+          stageElement.classList.remove('-right');
+          break;
+        case 1:
+          stageElement.classList.add('-right');
+          break;
+      }
+    };
+
+    const checkState = (index: number, direction: number, isActive: boolean) => {
+      // console.log(`${index}:${direction}:${isActive}`);
+      if (isActive) {
+        if (direction === 1) {
+          changeState(index);
+        } else if (direction === -1) {
+          changeState(index);
+        }
+      }
+    };
+
+    gsap.utils.toArray('.common-section, .main-visual').forEach((target: any, index) => {
+      gsap.to(null, {
+        scrollTrigger: {
+          trigger: target,
+          // markers: true,
+          start: 'top center',
+          end: 'bottom bottom-=20%',
+          onEnter: ({ direction, isActive }) => {
+            checkState(index, direction, isActive);
+          },
+          onEnterBack: ({ direction, isActive }) => {
+            checkState(index, direction, isActive);
+          },
+          onLeave: ({ direction, isActive }) => {
+            checkState(index, direction, isActive);
+          },
+          onLeaveBack: ({ direction, isActive }) => {
+            checkState(index, direction, isActive);
+          },
+        },
+      });
+    });
+  })();
+</script>
