@@ -255,6 +255,8 @@ import SvgTriangleParts from '@/image/svg/TriangleParts.svg?raw';
           stageElement.classList.remove('-right');
           break;
         case 1:
+        case 2:
+        case 3:
           stageElement.classList.add('-right');
           break;
       }
@@ -268,6 +270,8 @@ import SvgTriangleParts from '@/image/svg/TriangleParts.svg?raw';
         } else if (direction === -1) {
           changeState(index);
         }
+      } else {
+        if (index === 3 && direction === 1) changeState(index); // 最下層対応
       }
     };
 
