@@ -1,18 +1,29 @@
 ---
-const { name = 'NAME', fullName = 'Full<br/>Name', label = 'Label' } = Astro.props;
+import SvgTriangle from '@/image/svg/Triangle.svg?raw';
+import SvgCircle from '@/image/svg/Circle.svg?raw';
+import SvgSquare from '@/image/svg/Square.svg?raw';
+const { name = 'NAME', displayName, fullName = '', label = 'Label' } = Astro.props;
+const getSvg = (name: string) => {
+  if (name === 'triangle') return SvgTriangle;
+  if (name === 'circle') return SvgCircle;
+  if (name === 'square') return SvgSquare;
+};
 ---
 
 <div class="common-section" id={name}>
   <div class="common-section_inner">
     <div class="common-section_title">
-      <div class="common-section_pre" set:html={fullName} />
+      <div class="common-section_shape" set:html={getSvg(name)} />
       <div class="common-section_main">
         <div class="common-section_label">{label}</div>
-        <h2 class="common-section_heading">{name}</h2>
+        <h2 class="common-section_heading" set:html={displayName || name} />
       </div>
       <div class="common-section_object">
         <div class="common-section_stripe"></div>
         <div class="common-section_color"></div>
+      </div>
+      <div class="common-section_contents">
+        <slot />
       </div>
     </div>
   </div>
@@ -24,72 +35,79 @@ const { name = 'NAME', fullName = 'Full<br/>Name', label = 'Label' } = Astro.pro
   .common-section {
     position: relative;
     width: 100%;
-    height: 100svh;
   }
 
   .common-section_inner {
     display: flex;
     align-items: center;
-    max-width: max(30vw, #{rem(480)});
-    height: 100%;
-    padding-right: 2rem;
+    max-width: max(40vw, #{rem(520)});
+    min-height: 100svh;
+    padding-right: var(--space-frame);
     padding-left: var(--space-frame);
     overflow: hidden;
-
-    // background-color: aliceblue;
   }
 
   .common-section_title {
-    display: inline-block;
-    min-width: rem(200);
+    width: 100%;
+    min-width: rem(256);
+    padding-right: 1.5rem;
     padding-bottom: 4rem;
+    padding-left: 1.5rem;
     margin-right: auto;
     margin-left: auto;
 
     @include min-screen(md) {
-      display: block;
-      width: 100%;
+      padding-left: 3rem;
     }
   }
 
-  .common-section_pre {
-    font-size: var(--typo-size-50);
-    line-height: 1.25;
-    text-align: right;
+  .common-section_shape {
+    width: 2rem;
+    perspective: 1000px;
+    perspective-origin: center center;
+    transform-style: preserve-3d;
+
+    & > :global(svg) {
+      animation: 3s linear rotate-y infinite;
+    }
+  }
+
+  @keyframes rotate-y {
+    0% {
+      rotate: 0 1 0 0deg;
+    }
+
+    100% {
+      rotate: 0 1 0 180deg;
+    }
   }
 
   .common-section_main {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: space-between;
-    margin-top: -2rem;
-
-    @include min-screen(md) {
-      flex-direction: row;
-      margin-top: 0;
-    }
   }
 
   .common-section_label {
-    padding: 0 0.75rem;
+    padding: 0 0.5rem;
     margin-top: rem(10);
     font-size: var(--typo-size-50);
     color: var(--color-white);
     background-color: var(--color-black);
-
-    @include min-screen(md) {
-      margin-left: rem(32);
-    }
   }
 
   .common-section_heading {
     width: 100%;
-    font-size: 5rem;
+    margin-right: -0.05em;
+    font-size: 3.75rem;
     font-weight: var(--typo-weight-bold);
     line-height: 1;
-    text-align: right;
     text-transform: uppercase;
+    word-break: break-word;
+
+    @include min-screen(md) {
+      font-size: 4.5rem;
+    }
   }
 
   .common-section_object {
@@ -102,7 +120,6 @@ const { name = 'NAME', fullName = 'Full<br/>Name', label = 'Label' } = Astro.pro
     position: relative;
     width: rem(136);
     height: rem(40);
-    margin-left: auto;
     background-image: repeating-linear-gradient(
       -45deg,
       transparent,
@@ -115,10 +132,6 @@ const { name = 'NAME', fullName = 'Full<br/>Name', label = 'Label' } = Astro.pro
     animation-duration: 10s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
-
-    @include min-screen(md) {
-      --this-color: var(--color-black);
-    }
   }
 
   @keyframes warning {
@@ -137,15 +150,14 @@ const { name = 'NAME', fullName = 'Full<br/>Name', label = 'Label' } = Astro.pro
     width: rem(136);
     height: rem(40);
     margin-top: rem(-40);
-    margin-left: auto;
     background: linear-gradient(90deg, var(--color-gradation-1), var(--color-gradation-2));
+  }
 
-    @include min-screen(md) {
-      width: rem(60);
-      height: rem(120);
-      margin-top: -1.75rem;
-      margin-right: 0.75rem;
-      background: linear-gradient(var(--color-gradation-1), var(--color-gradation-2));
-    }
+  .common-section_contents {
+    display: none;
+    width: 100%;
+    aspect-ratio: 2/3;
+    margin-top: 2rem;
+    background-color: snow;
   }
 </style>
