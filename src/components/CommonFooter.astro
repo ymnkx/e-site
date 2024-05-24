@@ -22,7 +22,7 @@
     width: 100%;
     overflow: hidden;
     color: var(--color-text-white);
-    background-color: var(--color-bg-footer);
+    background: linear-gradient(var(--color-gray-300), var(--color-bg-footer));
   }
 
   .common-footer_end {
@@ -30,31 +30,11 @@
     top: 0;
     left: 50%;
     width: 80%;
-    max-width: 20rem;
-    height: 6px;
-    background-color: var(--color-white);
+    max-width: 16rem;
+    height: rem(12);
+    background: #000;
     transform: translateX(-50%);
-
-    &::before,
-    &::after {
-      position: absolute;
-      top: 0;
-      width: 3rem;
-      height: 10px;
-      content: '';
-      background-color: var(--color-white);
-    }
-
-    &::before {
-      left: 0;
-    }
-
-    &::after {
-      right: 0;
-    }
   }
-
-  // .common-footer_deco {}
 
   .common-footer_circle {
     --this-size: 60rem;
